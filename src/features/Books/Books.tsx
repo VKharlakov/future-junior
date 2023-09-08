@@ -30,7 +30,11 @@ function Books() {
       </p>
       <ul className="books__list">
         {Array.isArray(books) &&
-          books.map((book: any) => <Book book={book} key={book.id} />)}
+          books.map((book: any) => (
+            <li className="books__item" key={book.id}>
+              <Book book={book} type={"list-item"} />
+            </li>
+          ))}
       </ul>
     </section>
   );

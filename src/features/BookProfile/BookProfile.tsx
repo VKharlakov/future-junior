@@ -3,6 +3,7 @@ import { useAppDispatch, useAppSelector } from "../../app/hooks";
 import "./BookProfile.css";
 import { useParams } from "react-router-dom";
 import { API_KEY, fetchBooks } from "../Books/booksSlice";
+import Book from "../Book/Book";
 
 function BookProfile() {
   const { bookId } = useParams();
@@ -21,8 +22,9 @@ function BookProfile() {
   }, [booksStatus, dispatch, bookId]);
 
   return (
-    <section>
+    <section className="book-profile">
       <p>Информация о {!Array.isArray(book) && book.volumeInfo?.title}</p>
+      <Book book={book} type={"profile"} />
     </section>
   );
 }
