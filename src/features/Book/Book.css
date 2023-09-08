@@ -1,6 +1,9 @@
 .book {
-  color: black;
-  text-decoration: none;
+  box-shadow: 0px 5px 7px 1px rgba(0, 0, 0, 0.2);
+  border-radius: 3px;
+  transition: 0.2s;
+  border-radius: 12px;
+
   display: grid;
   grid-template-areas:
     "picture  picture"
@@ -18,9 +21,8 @@
 }
 
 .book_type_profile {
-  width: 200px;
-  height: 400px;
-  grid-template-rows: 85% 10% 5%;
+  width: 300px;
+  height: 450px;
 }
 
 .book__pic {
@@ -50,7 +52,7 @@
   padding: 3px 8px;
   font-size: calc(var(--p-size) - 1px);
   width: max-content;
-  background-color: white;
+  background-color: var(--gray-color);
   color: rgb(134, 134, 134);
   border-radius: 11px 0 12px 0;
 }
@@ -69,7 +71,7 @@
 .book_author {
   margin: 0;
   padding: 0 3px 0 0;
-  border-right: 2px solid var(--emph-color);
+  border-right: 2px solid rgb(134, 134, 134);
   font-size: calc(var(--p-size) - 2px);
 }
 

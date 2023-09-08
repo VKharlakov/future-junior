@@ -10,9 +10,13 @@ function Searchbar() {
     setFormValue({ ...formValue, [name]: value });
   }
 
+  function handleSubmit(event: React.FormEvent) {
+    event.preventDefault();
+  }
+
   return (
     <section className="searchbar">
-      <form className="searchbar__form">
+      <form className="searchbar__form" onSubmit={handleSubmit}>
         <input
           className="searchbar__input searchbar__input_type_text"
           type="text"

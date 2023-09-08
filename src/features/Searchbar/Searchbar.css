@@ -3,6 +3,7 @@
   display: flex;
   justify-content: center;
   padding: 20px 0;
+  background-color: var(--button-color);
 }
 
 .searchbar__form {
@@ -27,18 +28,19 @@
 
 .searchbar__input::placeholder {
   font-style: italic;
-  opacity: 0.5;
   transition: 0.4s;
+  color: var(--gray-color);
 }
 
 .searchbar__input_type_text {
   width: 100%;
   grid-area: input-text;
   box-sizing: border-box;
-  padding: 0 40px 0 10px;
+  padding: 0 40px 0 20px;
   overflow: hidden;
   text-overflow: ellipsis;
   border: 2px solid var(--gray-color);
+  font-size: var(--p-size);
 }
 
 .searchbar__input_type_text:focus,
@@ -50,23 +52,27 @@
   opacity: 0;
 }
 
+.searchbar__label {
+  display: flex;
+  gap: 10px;
+  align-items: center;
+}
+
 .searchbar__input_type_select {
-  color: var(--emph-color);
-  font-weight: 700;
+  color: black;
   text-align: center;
   width: max-content;
-  padding: 0 3px;
-  background-color: transparent;
+  padding: 5px;
+  background-color: white;
+  height: max-content;
+  transition: 0.1s;
 }
 
-.searchbar__label:hover {
-  cursor: pointer;
-}
-
+.searchbar__input_type_select:focus,
 .searchbar__input_type_select:hover {
-  background-color: unset;
+  background-color: var(--emph-color);
+  color: white;
   cursor: pointer;
-  text-decoration: underline;
 }
 
 .searchbar__button {
@@ -77,7 +83,8 @@
   background-position: center;
   background-repeat: no-repeat;
   background-size: 50%;
-  background-color: var(--emph-color);
+  background-color: var(--gray-color);
+  background-color: var(--button-color);
 
   width: 30px;
   height: 30px;
@@ -93,4 +100,5 @@
 .searchbar__button:hover {
   cursor: pointer;
   background-color: var(--button-color);
+  background-color: var(--emph-color);
 }

@@ -4,6 +4,7 @@ import { useAppSelector, useAppDispatch } from "../../app/hooks";
 import { useEffect } from "react";
 import { fetchBooks } from "./booksSlice";
 import { API_KEY } from "../../utils/constants";
+import { Link } from "react-router-dom";
 
 function Books() {
   const dispatch = useAppDispatch();
@@ -33,7 +34,9 @@ function Books() {
       <ul className="books__list">
         {books.map((book: any) => (
           <li className="books__item" key={book.id}>
-            <Book book={book} type={"list-item"} />
+            <Link className="books__link" to={book.id} target="_blank">
+              <Book book={book} type={"list-item"} />
+            </Link>
           </li>
         ))}
       </ul>

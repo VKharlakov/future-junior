@@ -5,6 +5,8 @@ import { useParams } from "react-router-dom";
 import Book from "../Book/Book";
 import { API_KEY } from "../../utils/constants";
 import { fetchBookProfile } from "./bookProfileSlice";
+import DOMPurify from "dompurify";
+import parse from "html-react-parser";
 
 function BookProfile() {
   const { bookId } = useParams();
@@ -22,10 +24,42 @@ function BookProfile() {
     console.log("book:", book);
   }, [booksStatus, dispatch, bookId]);
 
+  const cleanDescription = parse(
+    DOMPurify.sanitize(book.volumeInfo?.description)
+  );
+  console.log(cleanDescription);
+
   return (
     <section className="book-profile">
-      <p>Информация о {book.volumeInfo?.title}</p>
-      <Book book={book} type={"profile"} />
+      <h2 className="book-profile__title">{book.volumeInfo?.title}</h2>
+      <div className="book-profile__info">
+        <p className="book-profile__subtitle">{book.volumeInfo?.subtitle}</p>
+        <div className="book-profile__description">{cleanDescription}</div>
+        <div className="book-profile__info-brief">
+          <p className="book-profile__print-type">
+            Тип: {book.volumeInfo?.printType}
+          </p>
+          <p className="book-profile__language">
+            Язык: {book.volumeInfo?.language}
+          </p>
+          <p className="book-profile__publisher">
+            Издатель: {book.volumeInfo?.publisher}
+          </p>
+          <p className="book-profile__published-date">
+            Год издания: {book.volumeInfo?.publishedDate}
+          </p>
+
+          <p className="book-profile__page-count">
+            Количество страниц: {book.volumeInfo?.pageCount}
+          </p>
+        </div>
+      </div>
+      <a
+        className="book-profile__book-cover"
+        href={book.volumeInfo?.canonicalVolumeLink}
+      >
+        <Book book={book} type={"profile"} />
+      </a>
     </section>
   );
 }

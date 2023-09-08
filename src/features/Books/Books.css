@@ -25,10 +25,13 @@
 }
 
 .books__item {
-  box-shadow: 0px 5px 7px 1px rgba(0, 0, 0, 0.2);
-  border-radius: 3px;
   transition: 0.2s;
   border-radius: 12px;
+}
+
+.books__link {
+  color: black;
+  text-decoration: none;
 }
 
 .books__item:hover {

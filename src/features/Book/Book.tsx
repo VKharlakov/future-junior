@@ -1,5 +1,4 @@
 import "./Book.css";
-import { Link } from "react-router-dom";
 
 interface BookProps {
   book: Record<string, any>;
@@ -8,7 +7,7 @@ interface BookProps {
 
 function Book({ book, type }: BookProps) {
   return (
-    <Link className={`book book_type_${type}`} to={book.id} target="_blank">
+    <div className={`book book_type_${type}`}>
       <h2 className="book__title">{book.volumeInfo?.title}</h2>
       <img
         className="book__pic"
@@ -32,7 +31,7 @@ function Book({ book, type }: BookProps) {
           </li>
         )) || <li className="book_author">Автор неизвестен</li>}
       </ul>
-    </Link>
+    </div>
   );
 }
 

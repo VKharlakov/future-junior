@@ -1,0 +1,121 @@
+.book-profile {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  grid-template-areas:
+    "title title"
+    "book-cover book-info";
+  justify-items: center;
+  width: 90%;
+  margin: 20px auto;
+  row-gap: 50px;
+}
+
+.book-profile__title {
+  margin: 0;
+  padding: 0;
+
+  grid-area: title;
+  text-align: center;
+  font-size: var(--h2-size);
+}
+
+.book-profile__book-cover {
+  grid-area: book-cover;
+  text-decoration: none;
+  color: black;
+  width: max-content;
+  height: max-content;
+  transition: 0.2s;
+  border-radius: 12px;
+}
+
+.book-profile__book-cover:hover {
+  cursor: pointer;
+  box-shadow: 0px 7px 9px 1px rgba(0, 0, 0, 0.3);
+}
+
+.book-profile__info {
+  grid-area: book-info;
+}
+
+.book-profile__subtitle {
+  margin: 0;
+  padding: 0;
+  font-size: var(--p-size);
+}
+
+.book-profile__description {
+  margin: 0;
+  padding: 0 0 10px 0;
+  font-size: var(--p-size);
+}
+
+/*  */
+/* Стили HTML внутри .book-profile__description */
+/*  */
+
+.book-profile__description > p {
+  margin: 0;
+  margin-bottom: 10px;
+  padding: 0;
+}
+
+.book-profile__description p:last-of-type {
+  margin: 0;
+  padding: 0;
+}
+
+.book-profile__description > ul {
+  margin: 10px 0;
+  padding: 0;
+  list-style: inside;
+}
+
+.book-profile__description > ul > li {
+  margin: 0;
+  margin-bottom: 5px;
+  padding: 0;
+}
+
+.book-profile__description > ul li:last-child {
+  margin: 0;
+  padding: 0;
+}
+
+/*  */
+
+.book-profile__info-brief {
+  display: flex;
+  flex-direction: column;
+  border-top: 2px solid var(--gray-color);
+  padding-top: 10px;
+  gap: 5px;
+  opacity: 0.5;
+  font-size: calc(var(--p-size) - 2px);
+  font-style: italic;
+}
+
+.book-profile__print-type {
+  margin: 0;
+  padding: 0;
+}
+
+.book-profile__publisher {
+  margin: 0;
+  padding: 0;
+}
+
+.book-profile__published-date {
+  margin: 0;
+  padding: 0;
+}
+
+.book-profile__language {
+  margin: 0;
+  padding: 0;
+}
+
+.book-profile__page-count {
+  margin: 0;
+  padding: 0;
+}
