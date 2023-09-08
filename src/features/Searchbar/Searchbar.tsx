@@ -1,6 +1,15 @@
+import React, { useState } from "react";
 import "./Searchbar.css";
 
 function Searchbar() {
+  const [formValue, setFormValue] = useState({ searchText: "" });
+
+  function handleChange(event: React.ChangeEvent<HTMLInputElement>) {
+    const { name, value } = event.target;
+
+    setFormValue({ ...formValue, [name]: value });
+  }
+
   return (
     <section className="searchbar">
       <form className="searchbar__form">
@@ -8,6 +17,9 @@ function Searchbar() {
           className="searchbar__input searchbar__input_type_text"
           type="text"
           placeholder="Начните вводить ключевое слово"
+          name="searchText"
+          value={formValue.searchText || ""}
+          onChange={handleChange}
           required
         />
         <button className="searchbar__button" type="submit" />

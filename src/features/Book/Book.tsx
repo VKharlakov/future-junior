@@ -26,11 +26,11 @@ function Book({ book, type }: BookProps) {
           .map((category: string) => category.trim())[0] || "Без категории"}
       </p>
       <ul className="book_authors-list">
-        {book.volumeInfo?.authors.map((author: string, index: number) => (
+        {book.volumeInfo?.authors?.map((author: string, index: number) => (
           <li className="book_author" key={index}>
             {author}
           </li>
-        ))}
+        )) || <li className="book_author">Автор неизвестен</li>}
       </ul>
     </Link>
   );

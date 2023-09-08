@@ -28,6 +28,7 @@
 .searchbar__input::placeholder {
   font-style: italic;
   opacity: 0.5;
+  transition: 0.4s;
 }
 
 .searchbar__input_type_text {
@@ -43,6 +44,10 @@
 .searchbar__input_type_text:focus,
 .searchbar__input_type_text:hover {
   border-color: var(--emph-color);
+}
+
+.searchbar__input:hover::placeholder {
+  opacity: 0;
 }
 
 .searchbar__input_type_select {

@@ -6,7 +6,8 @@ import { API_KEY, fetchBooks } from "./booksSlice";
 
 function Books() {
   const dispatch = useAppDispatch();
-  const books = useAppSelector((state) => state.books.data);
+  const books = useAppSelector((state) => state.books.data).items;
+  const booksTotal = useAppSelector((state) => state.books.data).totalItems;
   const booksStatus = useAppSelector((state) => state.books.status);
   const error = useAppSelector((state) => state.books.error);
 
@@ -15,7 +16,7 @@ function Books() {
     console.log(booksStatus);
     if (booksStatus === "idle") {
       console.log("books status is idle, dispatching...");
-      dispatch(fetchBooks(`?q=${"lord of the rings"}&key=${API_KEY}`));
+      dispatch(fetchBooks(`?q='lor'&key=${API_KEY}`));
     }
   }, [booksStatus, dispatch]);
 
@@ -26,7 +27,7 @@ function Books() {
   return (
     <section className="books">
       <p className="books__counter">
-        Найдено {Array.isArray(books) && (books.length || 0)}
+        Найдено {Array.isArray(books) && booksTotal}
       </p>
       <ul className="books__list">
         {Array.isArray(books) &&

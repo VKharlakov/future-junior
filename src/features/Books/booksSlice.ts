@@ -14,13 +14,13 @@ interface ErrorResponse {
 }
 
 interface BookState {
-  data: Book[] | Book;
+  data: { items: Book[] | Book; totalItems: number };
   status: "idle" | "loading" | "succeeded" | "failed";
   error: ErrorResponse | null;
 }
 
 const initialState: BookState = {
-  data: [],
+  data: { items: [], totalItems: 0 },
   status: "idle",
   error: null,
 };
@@ -33,13 +33,7 @@ export const fetchBooks = createAsyncThunk(
       const response = await fetch(`${BASE_URL}${searchQuery}`);
       const data = await response.json();
 
-      if (data.items) {
-        //   Если возвращает список книг, вернуть список
-        return data.items as Book[];
-      }
-
-      //   Иначе, вернуть книгу
-      return data as Book;
+      return data;
     } catch (err: any) {
       const errorResponse: ErrorResponse = {
         message: "Произошла ошибка",
@@ -65,7 +59,9 @@ const booksSlice = createSlice({
       .addCase(fetchBooks.fulfilled, (state, action) => {
         console.log("api: status changed to SUCCEEDED");
         state.status = "succeeded";
-        state.data = action.payload;
+        console.log(action.payload);
+        state.data.items = action.payload.items;
+        state.data.totalItems = action.payload.totalItems;
       })
       .addCase(fetchBooks.rejected, (state, action) => {
         console.log("api: status changed to FAILED");

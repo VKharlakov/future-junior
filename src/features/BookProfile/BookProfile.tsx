@@ -8,7 +8,7 @@ import Book from "../Book/Book";
 function BookProfile() {
   const { bookId } = useParams();
   const dispatch = useAppDispatch();
-  const book = useAppSelector((state) => state.books.data);
+  const book = useAppSelector((state) => state.books.data.items);
   const booksStatus = useAppSelector((state) => state.books.status);
   const error = useAppSelector((state) => state.books.error);
 
