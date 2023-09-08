@@ -1,10 +1,10 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import { BASE_URL } from "../../utils/constants";
-import { BookProfile } from "../BookProfile/bookProfileSlice";
 
-interface Books {
-  items: BookProfile[];
-  totalItems: number;
+export interface BookProfile {
+  book: Record<string, any>;
+  id: string;
+  volumeInfo: Record<string, any>;
 }
 
 interface ErrorResponse {
@@ -12,21 +12,21 @@ interface ErrorResponse {
   code?: number;
 }
 
-interface BookState {
-  data: Books;
+interface BookProfileState {
+  data: BookProfile;
   status: "idle" | "loading" | "succeeded" | "failed";
   error: ErrorResponse | null;
 }
 
-const initialState: BookState = {
-  data: { items: [], totalItems: 0 },
+const initialState: BookProfileState = {
+  data: { book: {}, id: "", volumeInfo: {} },
   status: "idle",
   error: null,
 };
 
 // API запрос к Google Books
-export const fetchBooks = createAsyncThunk(
-  "books/fetchBooks",
+export const fetchBookProfile = createAsyncThunk(
+  "bookProfile/fetchBookProfile",
   async (searchQuery: string, { rejectWithValue }) => {
     try {
       const response = await fetch(`${BASE_URL}${searchQuery}`);
@@ -45,23 +45,23 @@ export const fetchBooks = createAsyncThunk(
   }
 );
 
-const booksSlice = createSlice({
-  name: "books",
+const bookProfile = createSlice({
+  name: "bookProfile",
   initialState,
   reducers: {},
   extraReducers: (builder) => {
     builder
-      .addCase(fetchBooks.pending, (state) => {
+      .addCase(fetchBookProfile.pending, (state) => {
         console.log("api: status changed to LOADING");
         state.status = "loading";
       })
-      .addCase(fetchBooks.fulfilled, (state, action) => {
+      .addCase(fetchBookProfile.fulfilled, (state, action) => {
         console.log("api: status changed to SUCCEEDED");
         state.status = "succeeded";
         console.log(action.payload);
         state.data = action.payload;
       })
-      .addCase(fetchBooks.rejected, (state, action) => {
+      .addCase(fetchBookProfile.rejected, (state, action) => {
         console.log("api: status changed to FAILED");
         state.status = "failed";
         state.error = action.payload as ErrorResponse;
@@ -69,4 +69,4 @@ const booksSlice = createSlice({
   },
 });
 
-export default booksSlice.reducer;
+export default bookProfile.reducer;

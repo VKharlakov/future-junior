@@ -2,7 +2,8 @@ import "./Books.css";
 import Book from "../Book/Book";
 import { useAppSelector, useAppDispatch } from "../../app/hooks";
 import { useEffect } from "react";
-import { API_KEY, fetchBooks } from "./booksSlice";
+import { fetchBooks } from "./booksSlice";
+import { API_KEY } from "../../utils/constants";
 
 function Books() {
   const dispatch = useAppDispatch();
@@ -16,7 +17,7 @@ function Books() {
     console.log(booksStatus);
     if (booksStatus === "idle") {
       console.log("books status is idle, dispatching...");
-      dispatch(fetchBooks(`?q='lor'&key=${API_KEY}`));
+      dispatch(fetchBooks(`?q='Typescript'&key=${API_KEY}`));
     }
   }, [booksStatus, dispatch]);
 
@@ -27,15 +28,14 @@ function Books() {
   return (
     <section className="books">
       <p className="books__counter">
-        Найдено {Array.isArray(books) && booksTotal}
+        {booksTotal > 0 ? `Найдено ${booksTotal}` : "Ничего не найдено"}
       </p>
       <ul className="books__list">
-        {Array.isArray(books) &&
-          books.map((book: any) => (
-            <li className="books__item" key={book.id}>
-              <Book book={book} type={"list-item"} />
-            </li>
-          ))}
+        {books.map((book: any) => (
+          <li className="books__item" key={book.id}>
+            <Book book={book} type={"list-item"} />
+          </li>
+        ))}
       </ul>
     </section>
   );
