@@ -6,6 +6,8 @@ interface BookProps {
 }
 
 function Book({ book, type }: BookProps) {
+  const authorsList = book.volumeInfo?.authors;
+
   return (
     <div className={`book book_type_${type}`}>
       <h2 className="book__title">{book.volumeInfo?.title}</h2>
@@ -25,11 +27,26 @@ function Book({ book, type }: BookProps) {
           .map((category: string) => category.trim())[0] || "Без категории"}
       </p>
       <ul className="book_authors-list">
-        {book.volumeInfo?.authors?.map((author: string, index: number) => (
-          <li className="book_author" key={index}>
-            {author}
-          </li>
-        )) || <li className="book_author">Автор неизвестен</li>}
+        {!authorsList ? (
+          <li className="book_author">Автор неизвестен</li>
+        ) : type === "list-item" ? (
+          <>
+            {authorsList.slice(0, 3).map((author: string, index: number) => (
+              <li className="book_author" key={index}>
+                {author}
+              </li>
+            ))}
+            {authorsList.length > 3 && (
+              <li className="book_author">и еще {authorsList.length - 3}</li>
+            )}
+          </>
+        ) : (
+          authorsList.map((author: string, index: number) => (
+            <li className="book_author" key={index}>
+              {author}
+            </li>
+          ))
+        )}
       </ul>
     </div>
   );

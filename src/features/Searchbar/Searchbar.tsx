@@ -1,18 +1,51 @@
-import React, { useState } from "react";
 import "./Searchbar.css";
 
-function Searchbar() {
-  const [formValue, setFormValue] = useState({ searchText: "" });
+import { useEffect } from "react";
+import { useNavigate } from "react-router-dom";
+import { fetchBooks } from "../Books/booksSlice";
+import { useAppDispatch } from "../../app/hooks";
 
-  function handleChange(event: React.ChangeEvent<HTMLInputElement>) {
+interface SearchbarProps {
+  setFormValue: React.Dispatch<React.SetStateAction<FormValue>>;
+  formValue: FormValue;
+  handleSubmit: (event: React.FormEvent) => void;
+  previousQuery: FormValue;
+}
+
+interface FormValue {
+  searchText: string;
+  category: string;
+  sortBy: string;
+}
+
+function Searchbar({
+  formValue,
+  setFormValue,
+  handleSubmit,
+  previousQuery,
+}: SearchbarProps) {
+  const navigate = useNavigate();
+  const dispatch = useAppDispatch();
+
+  // Функция при наборе текста
+  function handleInputChange(event: React.ChangeEvent<HTMLInputElement>) {
     const { name, value } = event.target;
-
     setFormValue({ ...formValue, [name]: value });
   }
 
-  function handleSubmit(event: React.FormEvent) {
-    event.preventDefault();
+  // Функция при выборе новой категории/сортировки
+  function handleSelectChange(event: React.ChangeEvent<HTMLSelectElement>) {
+    const { name, value } = event.target;
+    setFormValue({ ...formValue, [name]: value });
+    navigate("/");
   }
+
+  // Запрос к API с учетом выбранной категории/сортировки
+  useEffect(() => {
+    dispatch(
+      fetchBooks({ ...formValue, searchText: previousQuery.searchText })
+    );
+  }, [formValue.category, formValue.sortBy]);
 
   return (
     <section className="searchbar">
@@ -23,27 +56,55 @@ function Searchbar() {
           placeholder="Начните вводить ключевое слово"
           name="searchText"
           value={formValue.searchText || ""}
-          onChange={handleChange}
+          onChange={handleInputChange}
           required
         />
         <button className="searchbar__button" type="submit" />
         <label className="searchbar__label">
-          Категории
-          <select className="searchbar__input searchbar__input_type_select">
-            <option className="searchbar__option">все</option>
-            <option className="searchbar__option">искусство</option>
-            <option className="searchbar__option">биографии</option>
-            <option className="searchbar__option">компьютеры</option>
-            <option className="searchbar__option">исторические</option>
-            <option className="searchbar__option">медицина</option>
-            <option className="searchbar__option">поэзия</option>
+          Категория
+          <select
+            className="searchbar__input searchbar__input_type_select"
+            defaultValue={"all"}
+            name="category"
+            onChange={handleSelectChange}
+          >
+            <option className="searchbar__option" value={"all"}>
+              все
+            </option>
+            <option className="searchbar__option" value={"art"}>
+              искусство
+            </option>
+            <option className="searchbar__option" value={"biography"}>
+              биографии
+            </option>
+            <option className="searchbar__option" value={"computers"}>
+              компьютеры
+            </option>
+            <option className="searchbar__option" value={"history"}>
+              исторические
+            </option>
+            <option className="searchbar__option" value={"medical"}>
+              медицина
+            </option>
+            <option className="searchbar__option" value={"poetry"}>
+              поэзия
+            </option>
           </select>
         </label>
         <label className="searchbar__label">
           Сортировать по
-          <select className="searchbar__input searchbar__input_type_select">
-            <option className="searchbar__option">соответствию</option>
-            <option className="searchbar__option">новизне</option>
+          <select
+            className="searchbar__input searchbar__input_type_select"
+            defaultValue={"relevance"}
+            name="sortBy"
+            onChange={handleSelectChange}
+          >
+            <option className="searchbar__option" value={"relevance"}>
+              соответствию
+            </option>
+            <option className="searchbar__option" value={"newest"}>
+              новизне
+            </option>
           </select>
         </label>
       </form>

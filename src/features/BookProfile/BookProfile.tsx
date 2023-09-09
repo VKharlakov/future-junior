@@ -1,33 +1,40 @@
-import { useEffect } from "react";
-import { useAppDispatch, useAppSelector } from "../../app/hooks";
 import "./BookProfile.css";
-import { useParams } from "react-router-dom";
 import Book from "../Book/Book";
-import { API_KEY } from "../../utils/constants";
+import Preloader from "../Preloader/Preloader";
+
+import { useEffect } from "react";
+import { useParams } from "react-router-dom";
 import { fetchBookProfile } from "./bookProfileSlice";
+import { useAppDispatch, useAppSelector } from "../../app/hooks";
+
+// Библиотека "DOMPurify" для очистки приходящего от API
+// текста в формате HTML
 import DOMPurify from "dompurify";
+
+// Библиотека "parse" для форматирования HTML в текст
 import parse from "html-react-parser";
 
 function BookProfile() {
   const { bookId } = useParams();
   const dispatch = useAppDispatch();
+
   const book = useAppSelector((state) => state.bookProfile.data);
   const booksStatus = useAppSelector((state) => state.bookProfile.status);
   const error = useAppSelector((state) => state.bookProfile.error);
 
-  useEffect(() => {
-    console.log("BookProfile useEffect firing");
-    if (booksStatus === "idle") {
-      console.log("dispatching books...");
-      dispatch(fetchBookProfile(`/${bookId}?key=${API_KEY}`));
-    }
-    console.log("book:", book);
-  }, [booksStatus, dispatch, bookId]);
-
+  // Форматирование приходящей HTML верстки в текст
   const cleanDescription = parse(
     DOMPurify.sanitize(book.volumeInfo?.description)
   );
-  console.log(cleanDescription);
+
+  // Запрос к API при первоначальной загрузке страницы
+  useEffect(() => {
+    if (booksStatus === "idle") {
+      if (bookId) {
+        dispatch(fetchBookProfile(bookId));
+      }
+    }
+  }, [booksStatus, dispatch, bookId]);
 
   return (
     <section className="book-profile">
@@ -60,6 +67,7 @@ function BookProfile() {
       >
         <Book book={book} type={"profile"} />
       </a>
+      <Preloader isActive={booksStatus === "loading"} />
     </section>
   );
 }

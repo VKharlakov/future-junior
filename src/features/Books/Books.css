@@ -4,6 +4,7 @@
   align-items: center;
   padding: 20px 0;
   gap: 50px;
+  position: relative;
 }
 
 .books__counter {
@@ -37,4 +38,32 @@
 .books__item:hover {
   cursor: pointer;
   box-shadow: 0px 7px 9px 1px rgba(0, 0, 0, 0.3);
+}
+
+.books__load-more-button {
+  margin: 0;
+  padding: 0;
+  border: none;
+  outline: none;
+
+  width: 25%;
+  max-width: 350px;
+  height: 35px;
+  border-radius: 12px;
+  background-color: var(--button-color);
+  font-size: var(--p-size);
+  transition: 0.2s;
+  position: relative;
+}
+
+.books__load-more-button:focus,
+.books__load-more-button:hover {
+  background-color: var(--emph-color);
+  cursor: pointer;
+  color: white;
+}
+
+.books__load-more-button:disabled {
+  pointer-events: none;
+  background-color: var(--button-color);
 }

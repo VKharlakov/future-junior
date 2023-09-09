@@ -1,5 +1,5 @@
+import { API_KEY, BASE_URL } from "../../utils/constants";
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
-import { BASE_URL } from "../../utils/constants";
 
 export interface BookProfile {
   book: Record<string, any>;
@@ -24,12 +24,12 @@ const initialState: BookProfileState = {
   error: null,
 };
 
-// API запрос к Google Books
+// API запрос к Google Books с поиском книги по id
 export const fetchBookProfile = createAsyncThunk(
   "bookProfile/fetchBookProfile",
-  async (searchQuery: string, { rejectWithValue }) => {
+  async (bookId: string, { rejectWithValue }) => {
     try {
-      const response = await fetch(`${BASE_URL}${searchQuery}`);
+      const response = await fetch(`${BASE_URL}/${bookId}?key=${API_KEY}`);
       const data = await response.json();
 
       return data;

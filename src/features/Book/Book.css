@@ -13,6 +13,7 @@
   grid-template-rows: 75% min-content 15%;
   align-items: center;
   gap: 5px;
+  overflow: hidden;
 }
 
 .book_type_list-item {
@@ -48,6 +49,10 @@
 
 .book__category {
   grid-area: picture;
+  max-width: 60%;
+  text-wrap: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
   margin: 0 auto auto 0;
   padding: 3px 8px;
   font-size: calc(var(--p-size) - 1px);
