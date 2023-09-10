@@ -52,17 +52,13 @@ const bookProfile = createSlice({
   extraReducers: (builder) => {
     builder
       .addCase(fetchBookProfile.pending, (state) => {
-        console.log("api: status changed to LOADING");
         state.status = "loading";
       })
       .addCase(fetchBookProfile.fulfilled, (state, action) => {
-        console.log("api: status changed to SUCCEEDED");
         state.status = "succeeded";
-        console.log(action.payload);
         state.data = action.payload;
       })
       .addCase(fetchBookProfile.rejected, (state, action) => {
-        console.log("api: status changed to FAILED");
         state.status = "failed";
         state.error = action.payload as ErrorResponse;
       });

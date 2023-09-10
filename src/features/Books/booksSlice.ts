@@ -40,13 +40,7 @@ export const fetchBooks = createAsyncThunk(
             : ""
         }`}&orderBy=${searchQuery.sortBy}&maxResults=30&key=${API_KEY}`
       );
-      console.log(
-        `?q=${searchQuery.searchText}${`${
-          searchQuery.category !== "all"
-            ? `+subject:${searchQuery.category}`
-            : ""
-        }`}&orderBy=${searchQuery.sortBy}&maxResults=30&key=${API_KEY}`
-      );
+
       const data = await response.json();
 
       return data;
@@ -105,15 +99,12 @@ const booksSlice = createSlice({
   extraReducers: (builder) => {
     builder
       .addCase(fetchBooks.pending, (state) => {
-        console.log("api: status changed to LOADING");
         state.status = "loading";
       })
       .addCase(loadMoreBooks.pending, (state) => {
-        console.log("api: status changed to LOADING");
         state.status = "loading";
       })
       .addCase(fetchBooks.fulfilled, (state, action) => {
-        console.log("api: status changed to SUCCEEDED");
         state.status = "succeeded";
 
         if (action.payload.totalItems > 0) {
@@ -122,12 +113,10 @@ const booksSlice = createSlice({
             totalItems: action.payload.totalItems,
           };
         } else {
-          console.log("nothing was found");
           state.data = { items: [], totalItems: 0 };
         }
       })
       .addCase(loadMoreBooks.fulfilled, (state, action) => {
-        console.log("api: status changed to SUCCEEDED");
         state.status = "succeeded";
         if (action.payload.totalItems > 0) {
           // Создать массив из id книг, которые уже есть в state.data
@@ -145,13 +134,10 @@ const booksSlice = createSlice({
             totalItems: action.payload.totalItems,
           };
         } else {
-          console.log("nothing was found");
-
           state.data = { items: [], totalItems: 0 };
         }
       })
       .addCase(fetchBooks.rejected, (state, action) => {
-        console.log("api: status changed to FAILED");
         state.status = "failed";
         state.error = action.payload as ErrorResponse;
       });
