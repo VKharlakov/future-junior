@@ -1,8 +1,9 @@
 import "./BookProfile.css";
 import Book from "../Book/Book";
 import Preloader from "../Preloader/Preloader";
+import ErrorPopup from "../ErrorPopup/ErrorPopup";
 
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import { fetchBookProfile } from "./bookProfileSlice";
 import { useAppDispatch, useAppSelector } from "../../app/hooks";
@@ -17,10 +18,12 @@ import parse from "html-react-parser";
 function BookProfile() {
   const { bookId } = useParams();
   const dispatch = useAppDispatch();
-
+  // ErrorPopup states
+  const [isErrorPopup, setIsErrorPopup] = useState(false);
+  // Redux states: bookProfile
   const book = useAppSelector((state) => state.bookProfile.data);
-  const booksStatus = useAppSelector((state) => state.bookProfile.status);
-  const error = useAppSelector((state) => state.bookProfile.error);
+  const bookProfileError = useAppSelector((state) => state.bookProfile.error);
+  const bookProfileStatus = useAppSelector((state) => state.bookProfile.status);
 
   // Форматирование приходящей HTML верстки в текст
   const cleanDescription = parse(
@@ -29,12 +32,15 @@ function BookProfile() {
 
   // Запрос к API при первоначальной загрузке страницы
   useEffect(() => {
-    if (booksStatus === "idle") {
+    if (bookProfileStatus === "idle") {
       if (bookId) {
         dispatch(fetchBookProfile(bookId));
       }
     }
-  }, [booksStatus, dispatch, bookId]);
+    if (bookProfileStatus === "failed") {
+      setIsErrorPopup(true);
+    }
+  }, [bookProfileStatus, dispatch, bookId]);
 
   return (
     <section className="book-profile">
@@ -67,7 +73,12 @@ function BookProfile() {
       >
         <Book book={book} type={"profile"} />
       </a>
-      <Preloader isActive={booksStatus === "loading"} />
+      <Preloader isActive={bookProfileStatus === "loading"} />
+      <ErrorPopup
+        isActive={isErrorPopup}
+        setIsActive={setIsErrorPopup}
+        errorMessage={bookProfileError?.message || null}
+      />
     </section>
   );
 }

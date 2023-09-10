@@ -21,11 +21,13 @@ function Book({ book, type }: BookProps) {
           }?text=Обложка+отсутствует`
         }
       />
-      <p className="book__category">
-        {book.volumeInfo?.categories?.[0]
-          .split(/[/,&]/)
-          .map((category: string) => category.trim())[0] || "Без категории"}
-      </p>
+      {type !== "profile" && (
+        <p className="book__category">
+          {book.volumeInfo?.categories?.[0]
+            .split(/[/,&]/)
+            .map((category: string) => category.trim())[0] || "Без категории"}
+        </p>
+      )}
       <ul className="book_authors-list">
         {!authorsList ? (
           <li className="book_author">Автор неизвестен</li>

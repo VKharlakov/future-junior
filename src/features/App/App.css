@@ -1,3 +1,26 @@
 .app {
   font-family: Lato, Arial, Helvetica, sans-serif;
 }
+
+/* Стили ползунка */
+::-webkit-scrollbar {
+  width: 6px;
+}
+
+::-webkit-scrollbar:hover {
+  width: 10px;
+}
+
+::-webkit-scrollbar-track {
+  background: white;
+}
+
+::-webkit-scrollbar-thumb {
+  transition: 0.2s;
+  background: #d7d7d7;
+  border-radius: 3px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: var(--emph-color);
+}

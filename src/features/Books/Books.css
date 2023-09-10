@@ -26,18 +26,28 @@
 }
 
 .books__item {
-  transition: 0.2s;
+  transition: 0.2s box-shadow linear, 0.4s visibility ease,
+    0.6s opacity ease-out, 0.4s transform ease;
   border-radius: 12px;
-}
-
-.books__link {
-  color: black;
-  text-decoration: none;
+  opacity: 0;
+  visibility: hidden;
+  transform: translateY(10%);
 }
 
 .books__item:hover {
   cursor: pointer;
   box-shadow: 0px 7px 9px 1px rgba(0, 0, 0, 0.3);
+}
+
+.books__item_show {
+  transform: translateY(0);
+  opacity: 1;
+  visibility: visible;
+}
+
+.books__link {
+  color: black;
+  text-decoration: none;
 }
 
 .books__load-more-button {

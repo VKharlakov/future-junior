@@ -39,7 +39,7 @@
   padding: 0 40px 0 20px;
   overflow: hidden;
   text-overflow: ellipsis;
-  border: 2px solid var(--gray-color);
+  border: 2px solid transparent;
   font-size: var(--p-size);
 }
 

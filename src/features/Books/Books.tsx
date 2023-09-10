@@ -2,9 +2,10 @@ import "./Books.css";
 import Book from "../Book/Book";
 import Loader from "../Loader/Loader";
 import Preloader from "../Preloader/Preloader";
+import ErrorPopup from "../ErrorPopup/ErrorPopup";
 
 import { Link } from "react-router-dom";
-import { useEffect, useState, useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 import { fetchBooks, loadMoreBooks } from "./booksSlice";
 import { useAppSelector, useAppDispatch } from "../../app/hooks";
 
@@ -20,17 +21,17 @@ interface FormValue {
 }
 
 function Books({ formValue, previousQuery }: BooksProps) {
-  //
-  const [isIntersecting, setIsIntersecting] = useState(false);
-  const listItemRef = useRef<HTMLLIElement[]>([]);
-  console.log(listItemRef);
-  //
   const dispatch = useAppDispatch();
+  const booksListRef = useRef<HTMLUListElement>(null);
+  // ErrorPopup states
+  const [isErrorPopup, setIsErrorPopup] = useState(false);
+  // Redux states: books
   const books = useAppSelector((state) => state.books.data).items;
-  const booksTotal = useAppSelector((state) => state.books.data).totalItems;
   const booksStatus = useAppSelector((state) => state.books.status);
-  const error = useAppSelector((state) => state.books.error);
+  const booksTotal = useAppSelector((state) => state.books.data).totalItems;
+  const booksError = useAppSelector((state) => state.books.error);
 
+  // Загрузить новые 30 книг по предыдущему запросу
   function handleLoadMore() {
     dispatch(loadMoreBooks(previousQuery));
   }
@@ -40,24 +41,45 @@ function Books({ formValue, previousQuery }: BooksProps) {
     if (booksStatus === "idle") {
       dispatch(fetchBooks({ ...formValue, searchText: "How to get hired" }));
     }
+    if (booksStatus === "failed") {
+      setIsErrorPopup(true);
+    }
   }, [booksStatus, dispatch, formValue]);
+
+  // Анимация появления книг при прокрутке
+  // Intersection Observer
+  useEffect(() => {
+    const listItems = booksListRef?.current?.querySelectorAll(".books__item");
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          entry.target.classList.toggle(
+            "books__item_show",
+            entry.isIntersecting
+          );
+          if (entry.isIntersecting) {
+            observer.unobserve(entry.target);
+          }
+        });
+      },
+      { threshold: 0.1 }
+    );
+
+    if (listItems) {
+      listItems.forEach((item) => {
+        observer.observe(item);
+      });
+    }
+  }, [books]);
 
   return (
     <section className="books">
       <p className="books__counter">
         {booksTotal > 0 ? `Найдено ${booksTotal}` : "Ничего не найдено"}
       </p>
-      <ul className="books__list">
+      <ul className="books__list" ref={booksListRef}>
         {books.map((book: any, index: number) => (
-          <li
-            className="books__item"
-            key={index}
-            ref={(element) => {
-              if (element) {
-                listItemRef.current[index] = element;
-              }
-            }}
-          >
+          <li className="books__item" key={index}>
             <Link className="books__link" to={book.id} target="_blank">
               <Book book={book} type={"list-item"} />
             </Link>
@@ -74,6 +96,11 @@ function Books({ formValue, previousQuery }: BooksProps) {
         </button>
       )}
       <Preloader isActive={booksStatus === "loading"} />
+      <ErrorPopup
+        isActive={isErrorPopup}
+        setIsActive={setIsErrorPopup}
+        errorMessage={booksError?.message || null}
+      />
     </section>
   );
 }
