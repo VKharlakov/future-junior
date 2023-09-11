@@ -8,6 +8,7 @@ import { Link } from "react-router-dom";
 import { useEffect, useRef, useState } from "react";
 import { fetchBooks, loadMoreBooks } from "./booksSlice";
 import { useAppSelector, useAppDispatch } from "../../app/hooks";
+import { observeListItems } from "../../utils/utils";
 
 interface BooksProps {
   formValue: FormValue;
@@ -50,26 +51,7 @@ function Books({ formValue, previousQuery }: BooksProps) {
   // Intersection Observer
   useEffect(() => {
     const listItems = booksListRef?.current?.querySelectorAll(".books__item");
-    const observer = new IntersectionObserver(
-      (entries) => {
-        entries.forEach((entry) => {
-          entry.target.classList.toggle(
-            "books__item_show",
-            entry.isIntersecting
-          );
-          if (entry.isIntersecting) {
-            observer.unobserve(entry.target);
-          }
-        });
-      },
-      { threshold: 0.1 }
-    );
-
-    if (listItems) {
-      listItems.forEach((item) => {
-        observer.observe(item);
-      });
-    }
+    listItems && observeListItems(listItems);
   }, [books]);
 
   return (
