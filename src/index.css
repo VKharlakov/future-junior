@@ -12,3 +12,11 @@
   --h2-size: 24px;
   --p-size: 14px;
 }
+
+@media screen and (max-width: 700px) {
+  :root {
+    --h1-size: 42px;
+    --h2-size: 18px;
+    --p-size: 12px;
+  }
+}

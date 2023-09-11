@@ -30,6 +30,7 @@
   font-style: italic;
   transition: 0.4s;
   color: var(--gray-color);
+  font-size: var(--p-size);
 }
 
 .searchbar__input_type_text {
@@ -56,6 +57,7 @@
   display: flex;
   gap: 10px;
   align-items: center;
+  font-size: var(--p-size);
 }
 
 .searchbar__input_type_select {
@@ -101,4 +103,15 @@
   cursor: pointer;
   background-color: var(--button-color);
   background-color: var(--emph-color);
+}
+
+@media screen and (max-width: 700px) {
+  .searchbar__input_type_text {
+    padding: 0 10px 0 5px;
+  }
+
+  .searchbar__label {
+    flex-direction: column;
+    gap: 5px;
+  }
 }

@@ -77,3 +77,14 @@
   pointer-events: none;
   background-color: var(--button-color);
 }
+
+@media screen and (max-width: 700px) {
+  .books {
+    gap: 20px;
+  }
+  .books__list {
+    justify-content: center;
+    grid-template-columns: repeat(auto-fill, 120px);
+    grid-auto-rows: 200px;
+  }
+}
