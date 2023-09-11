@@ -11,21 +11,21 @@
 
 2. Склонируйте репозиторий проекта на свой компьютер:
 
-`git clone https://github.com/vkharlakov/future-junior.git``
+`git clone https://github.com/vkharlakov/future-junior.git`
 
 3. Перейдите в каталог проекта:
 
-`cd future-junior``
+`cd future-junior`
 
 4. Установите зависимости, выполнив следующую команду:
 
-`npm install``
+`npm install`
 
 ## Запуск
 
 Чтобы запустить каталог книг Google Books на локальном сервере, выполните следующую команду:
 
-`npm run start``
+`npm run start`
 
 После успешного запуска, вы сможете открыть приложение в своем браузере, перейдя по следующему адресу: [http://localhost:3000](http://localhost:3000).
 
