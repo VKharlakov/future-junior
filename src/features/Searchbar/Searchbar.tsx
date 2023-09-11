@@ -3,7 +3,7 @@ import "./Searchbar.css";
 import { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { fetchBooks } from "../Books/booksSlice";
-import { useAppDispatch } from "../../app/hooks";
+import { useAppDispatch, useAppSelector } from "../../app/hooks";
 
 interface SearchbarProps {
   setFormValue: React.Dispatch<React.SetStateAction<FormValue>>;
@@ -26,6 +26,9 @@ function Searchbar({
 }: SearchbarProps) {
   const navigate = useNavigate();
   const dispatch = useAppDispatch();
+
+  const booksStatus = useAppSelector((state) => state.books.status);
+  const bookProfileStatus = useAppSelector((state) => state.bookProfile.status);
 
   // Функция при наборе текста
   function handleInputChange(event: React.ChangeEvent<HTMLInputElement>) {
@@ -59,7 +62,13 @@ function Searchbar({
           onChange={handleInputChange}
           required
         />
-        <button className="searchbar__button" type="submit" />
+        <button
+          className="searchbar__button"
+          type="submit"
+          disabled={
+            booksStatus === "loading" || bookProfileStatus === "loading"
+          }
+        />
         <label className="searchbar__label">
           Категория
           <select

@@ -105,6 +105,12 @@
   background-color: var(--emph-color);
 }
 
+.searchbar__button:disabled {
+  opacity: 0.3;
+  pointer-events: none;
+  background-color: var(--button-color);
+}
+
 @media screen and (max-width: 700px) {
   .searchbar__input_type_text {
     padding: 0 10px 0 5px;
